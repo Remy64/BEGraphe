@@ -220,7 +220,13 @@ public class Path {
      */
     public float getLength() {
         // TODO:
-        return 0;
+        float total_length = 0;
+    	if(!this.arcs.isEmpty()){
+    		for(Arc un_arc : this.arcs) {
+    			total_length += un_arc.getLength();
+    		}
+    	}
+        return total_length;
     }
 
     /**
