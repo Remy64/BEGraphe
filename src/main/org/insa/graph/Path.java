@@ -78,7 +78,28 @@ public class Path {
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
         // TODO:
-        return new Path(graph, arcs);
+	if(nodes==null) {
+	    //constructeur 1 : graphe sans nodes
+            return new Path(graph);
+        } else if(nodes.size()==1) {
+	    //constructeur 2 : graphe avec un seul node
+            return new Path(graph, nodes.get(0));
+	} else {
+	    for(int i=0; i<nodes.size()-1; i++) {
+	        Arc shortest_arc = null;
+	            for(Arc un_arc : nodes.get(i).getSuccessors()) {
+	            	if(un_arc.getDestination().equals(nodes.get(i+1)) && (shortest_arc==null || un_arc.getLength()<shortest_arc.getLength())) {
+	            	    fastest_arc = un_arc;
+	            	}
+	            }
+	        if(shortest_arc==null) {
+	            throw (new IllegalArgumentException("pas d'arc vers le node suivant"));
+	        }
+	        arcs.add(shortest_arc);
+	    }
+	    //constructeur 3 : cas general
+	    return new Path(graph, arcs);
+	}
     }
 
     /**
