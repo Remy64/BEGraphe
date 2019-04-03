@@ -241,7 +241,13 @@ public class Path {
      */
     public double getTravelTime(double speed) {
         // TODO:
-        return 0;
+    	double travel_time = 0;
+    	if(!this.arcs.isEmpty()){
+			for(Arc un_arc : this.arcs) {
+				travel_time += un_arc.getTravelTime(speed);
+			}
+    	}
+        return travel_time;
     }
 
     /**
@@ -254,7 +260,13 @@ public class Path {
      */
     public double getMinimumTravelTime() {
         // TODO:
-        return 0;
+        double minimum_travel_time = 0;
+    	if(!this.arcs.isEmpty()){
+			for(Arc un_arc : this.arcs) {
+				minimum_travel_time += un_arc.getMinimumTravelTime();
+			}
+    	}
+        return minimum_travel_time;
     }
 
 }
