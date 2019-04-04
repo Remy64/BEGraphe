@@ -30,18 +30,40 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      * 
-     * @deprecated Need to be implemented.
+     * 
      */
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
         // TODO:
+<<<<<<< HEAD
+        if(nodes==null) {
+=======
 	if(nodes==null) {
+>>>>>>> fba41b36ecc634a62964ddfa51b578cb6aced925
 	    //constructeur 1 : graphe sans nodes
             return new Path(graph);
         } else if(nodes.size()==1) {
 	    //constructeur 2 : graphe avec un seul node
             return new Path(graph, nodes.get(0));
+<<<<<<< HEAD
+		} else {
+		    for(int i=0; i<nodes.size()-1; i++) {
+		        Arc fastest_arc = null;
+		            for(Arc un_arc : nodes.get(i).getSuccessors()) {
+		            	if(un_arc.getDestination().equals(nodes.get(i+1)) && (fastest_arc==null || un_arc.getMinimumTravelTime()<fastest_arc.getMinimumTravelTime())) {
+		            	    fastest_arc = un_arc;
+		            	}
+		            }
+		        if(fastest_arc==null) {
+		            throw (new IllegalArgumentException("pas d'arc vers le node suivant"));
+		        }
+		        arcs.add(fastest_arc);
+		    }
+		    //constructeur 3 : cas general
+		    return new Path(graph, arcs);
+		}
+=======
 	} else {
 	    for(int i=0; i<nodes.size()-1; i++) {
 	        Arc fastest_arc = null;
@@ -58,6 +80,7 @@ public class Path {
 	    //constructeur 3 : cas general
 	    return new Path(graph, arcs);
 	}
+>>>>>>> fba41b36ecc634a62964ddfa51b578cb6aced925
     }
 
     /**
@@ -72,12 +95,36 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      * 
-     * @deprecated Need to be implemented.
+     * 
      */
     public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
         // TODO:
+<<<<<<< HEAD
+		if(nodes==null) {
+		    //constructeur 1 : graphe sans nodes
+			return new Path(graph);
+	    } else if(nodes.size()==1) {
+		    //constructeur 2 : graphe avec un seul node
+	        return new Path(graph, nodes.get(0));
+		} else {
+		    for(int i=0; i<nodes.size()-1; i++) {
+		        Arc shortest_arc = null;
+		            for(Arc un_arc : nodes.get(i).getSuccessors()) {
+		            	if(un_arc.getDestination().equals(nodes.get(i+1)) && (shortest_arc==null || un_arc.getLength()<shortest_arc.getLength())) {
+		            	    shortest_arc = un_arc;
+		            	}
+		            }
+		        if(shortest_arc==null) {
+		            throw (new IllegalArgumentException("pas d'arc vers le node suivant"));
+		        }
+		        arcs.add(shortest_arc);
+		    }
+		    //constructeur 3 : cas general
+		    return new Path(graph, arcs);
+		}
+=======
 	if(nodes==null) {
 	    //constructeur 1 : graphe sans nodes
             return new Path(graph);
@@ -100,6 +147,7 @@ public class Path {
 	    //constructeur 3 : cas general
 	    return new Path(graph, arcs);
 	}
+>>>>>>> fba41b36ecc634a62964ddfa51b578cb6aced925
     }
 
     /**
@@ -240,7 +288,7 @@ public class Path {
      * 
      * @return true if the path is valid, false otherwise.
      * 
-     * @deprecated Need to be implemented.
+     * 
      */
     public boolean isValid() {
         // TODO:
@@ -258,7 +306,7 @@ public class Path {
      * 
      * @return Total length of the path (in meters).
      * 
-     * @deprecated Need to be implemented.
+     * 
      */
     public float getLength() {
         // TODO:
@@ -279,7 +327,7 @@ public class Path {
      * @return Time (in seconds) required to travel this path at the given speed (in
      *         kilometers-per-hour).
      * 
-     * @deprecated Need to be implemented.
+     * 
      */
     public double getTravelTime(double speed) {
         // TODO:
@@ -298,7 +346,7 @@ public class Path {
      * 
      * @return Minimum travel time to travel this path (in seconds).
      * 
-     * @deprecated Need to be implemented.
+     * 
      */
     public double getMinimumTravelTime() {
         // TODO:
