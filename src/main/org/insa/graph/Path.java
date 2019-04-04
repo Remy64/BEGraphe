@@ -89,7 +89,7 @@ public class Path {
 	        Arc shortest_arc = null;
 	            for(Arc un_arc : nodes.get(i).getSuccessors()) {
 	            	if(un_arc.getDestination().equals(nodes.get(i+1)) && (shortest_arc==null || un_arc.getLength()<shortest_arc.getLength())) {
-	            	    fastest_arc = un_arc;
+	            	    shortest_arc = un_arc;
 	            	}
 	            }
 	        if(shortest_arc==null) {
