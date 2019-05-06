@@ -190,6 +190,26 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
         return minItem;
     }
 
+    private boolean isValidAux(int indice) {
+    	//fin du tas
+    	if(this.index_left(indice) >= this.size()) {
+    		return true;
+    	//fils gauche dernier élément
+    	} else if(this.index_left(indice) == this.size()-1 && this.array.get(indice).compareTo(this.array.get(this.index_left(indice))) == -1) {
+    		return isValidAux(this.index_left(indice));
+    	//deux fils ok
+    	} else if(this.array.get(indice).compareTo(this.array.get(this.index_left(indice))) == -1 && this.array.get(indice).compareTo(this.array.get(this.index_left(indice)+1)) == -1) {
+    		return isValidAux(this.index_left(indice)) && isValidAux(this.index_left(indice)+1);
+    	//un fils pas ok
+    	} else {
+    		return false;
+    	}
+    }
+    
+    public boolean isValid() {
+    	return isValidAux(0);
+    }
+    
     /**
      * Prints the heap
      */
