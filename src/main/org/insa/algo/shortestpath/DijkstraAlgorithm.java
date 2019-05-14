@@ -1,10 +1,11 @@
 package org.insa.algo.shortestpath;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Stack;
 import org.insa.graph.*;
+import org.insa.algo.AbstractInputData.Mode;
 import org.insa.algo.AbstractSolution.Status;
+import org.insa.algo.ArcInspector;
 import org.insa.algo.utils.BinaryHeap;
 import org.insa.algo.utils.EmptyPriorityQueueException;
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
@@ -13,6 +14,14 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         super(data);
     }
 
+    
+    public Label[] initDjikstra(Graph graph, int dest, Mode mode, double speed) {
+    	Label[] label = new Label[graph.size()];
+    	for(int i =0; i < graph.size(); i++) {
+    		label[i] = new Label(i);	
+    	}
+    	return label;
+    }
     @Override
     protected ShortestPathSolution doRun() {
         ShortestPathData data = getInputData();
@@ -23,10 +32,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         int nbNodes = graph.size();
         
-        Label[] label = new Label[nbNodes];
-        for(int i = 0; i < nbNodes; i++) {
-        	label[i] = new Label(i);
-        }
+        Label[] label = this.initDjikstra(graph, data.getDestination().getId(), data.getMode(), data.getMaximumSpeed());
         int currentNode;
         label[data.getOrigin().getId()].setCost(0);
         tas.insert(label[data.getOrigin().getId()]);
@@ -68,6 +74,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Label destination = label[data.getDestination().getId()];
         int currNode = destination.getNode();
         Stack<Node> reversePath = new Stack<Node>();
+        reversePath.push(label[currNode].getFather().getDestination());
         while(currNode != data.getOrigin().getId()) {
         	reversePath.push(label[currNode].getFather().getOrigin());
         	currNode = label[currNode].getFather().getOrigin().getId();
