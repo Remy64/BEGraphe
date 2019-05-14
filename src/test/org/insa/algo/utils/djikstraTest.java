@@ -1,4 +1,4 @@
-package org.insa.algo;
+package org.insa.algo.utils;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -41,7 +41,7 @@ public class djikstraTest {
 	@BeforeClass
 	public static void initAll() throws Exception {
 	String mapDirectory, mapName1, mapPath1, mapName2, mapPath2, mapName3, mapPath3, mapName4, mapPath4, mapName5, mapPath5;
-	mapDirectory="C:\\Users\\perlo\\Desktop\\C\\BEGraphe\\maps\\";
+	mapDirectory="C:\\Users\\remyb\\Desktop\\BE_Graphes\\BEGraphe\\";
 	mapName1="carre.mapgr";
 	mapName2="haute-garonne.mapgr";
 	mapName3="insa.mapgr";
@@ -76,10 +76,10 @@ public class djikstraTest {
     dest5 = graph5.get(38);
     
     dijkstra1 = new DijkstraAlgorithm(new ShortestPathData(graph1, origin1, dest1, ArcInspectorFactory.getAllFilters().get(0)));
-    dijkstra2 = new DijkstraAlgorithm(new ShortestPathData(graph2, origin2, dest2, ArcInspectorFactory.getAllFilters().get(1)));
+    dijkstra2 = new DijkstraAlgorithm(new ShortestPathData(graph2, origin2, dest2, ArcInspectorFactory.getAllFilters().get(2)));
     dijkstra3 = new DijkstraAlgorithm(new ShortestPathData(graph3, origin3, dest3, ArcInspectorFactory.getAllFilters().get(2)));
-    dijkstra4 = new DijkstraAlgorithm(new ShortestPathData(graph4, origin4, dest4, ArcInspectorFactory.getAllFilters().get(3)));
-    dijkstra5 = new DijkstraAlgorithm(new ShortestPathData(graph5, origin5, dest5, ArcInspectorFactory.getAllFilters().get(4)));
+    dijkstra4 = new DijkstraAlgorithm(new ShortestPathData(graph4, origin4, dest4, ArcInspectorFactory.getAllFilters().get(0)));
+    dijkstra5 = new DijkstraAlgorithm(new ShortestPathData(graph5, origin5, dest5, ArcInspectorFactory.getAllFilters().get(2)));
     
     path1d = dijkstra1.run().getPath();
     path2d = dijkstra2.run().getPath();
@@ -88,10 +88,10 @@ public class djikstraTest {
     path5d = dijkstra5.run().getPath();
     
     bellman1 = new BellmanFordAlgorithm(new ShortestPathData(graph1, origin1, dest1, ArcInspectorFactory.getAllFilters().get(0)));
-    bellman2 = new BellmanFordAlgorithm(new ShortestPathData(graph2, origin2, dest2, ArcInspectorFactory.getAllFilters().get(1)));
+    bellman2 = new BellmanFordAlgorithm(new ShortestPathData(graph2, origin2, dest2, ArcInspectorFactory.getAllFilters().get(2)));
     bellman3 = new BellmanFordAlgorithm(new ShortestPathData(graph3, origin3, dest3, ArcInspectorFactory.getAllFilters().get(2)));
-    bellman4 = new BellmanFordAlgorithm(new ShortestPathData(graph4, origin4, dest4, ArcInspectorFactory.getAllFilters().get(3)));
-    bellman5 = new BellmanFordAlgorithm(new ShortestPathData(graph5, origin5, dest5, ArcInspectorFactory.getAllFilters().get(4)));
+    bellman4 = new BellmanFordAlgorithm(new ShortestPathData(graph4, origin4, dest4, ArcInspectorFactory.getAllFilters().get(0)));
+    bellman5 = new BellmanFordAlgorithm(new ShortestPathData(graph5, origin5, dest5, ArcInspectorFactory.getAllFilters().get(2)));
     
     path1b = bellman1.run().getPath();
     path2b = bellman2.run().getPath();
@@ -117,26 +117,26 @@ public class djikstraTest {
 		assertEquals(path4d.getArcs().size(), path4b.getArcs().size());
 		assertEquals(path5d.getArcs().size(), path5b.getArcs().size());
 		
-		assertEquals(path1d.getOrigin(), path1b.getOrigin());
-		assertEquals(path2d.getOrigin(), path2b.getOrigin());
-		assertEquals(path3d.getOrigin(), path3b.getOrigin());
-		assertEquals(path4d.getOrigin(), path4b.getOrigin());
-		assertEquals(path5d.getOrigin(), path5b.getOrigin());
+		assertEquals(path1d.getOrigin().getId(), path1b.getOrigin().getId());
+		assertEquals(path2d.getOrigin().getId(), path2b.getOrigin().getId());
+		assertEquals(path3d.getOrigin().getId(), path3b.getOrigin().getId());
+		assertEquals(path4d.getOrigin().getId(), path4b.getOrigin().getId());
+		assertEquals(path5d.getOrigin().getId(), path5b.getOrigin().getId());
 		
 		for(int i=0; i<path1d.getArcs().size(); i++) {
-			assertTrue(path1d.getArcs().get(i).getDestination().equals(path1b.getArcs().get(i).getDestination()));
+			assertEquals(path1d.getArcs().get(i).getDestination().getId(), (path1b.getArcs().get(i).getDestination().getId()));
 		}
 		for(int i=0; i<path2d.getArcs().size(); i++) {
-			assertTrue(path2d.getArcs().get(i).getDestination().equals(path2b.getArcs().get(i).getDestination()));
+			assertEquals(path2d.getArcs().get(i).getDestination().getId(), (path2b.getArcs().get(i).getDestination().getId()));
 		}
 		for(int i=0; i<path3d.getArcs().size(); i++) {
-			assertTrue(path3d.getArcs().get(i).getDestination().equals(path3b.getArcs().get(i).getDestination()));
+			assertEquals(path3d.getArcs().get(i).getDestination().getId(), (path3b.getArcs().get(i).getDestination().getId()));
 		}
 		for(int i=0; i<path4d.getArcs().size(); i++) {
-			assertTrue(path4d.getArcs().get(i).getDestination().equals(path4b.getArcs().get(i).getDestination()));
+			assertEquals(path4d.getArcs().get(i).getDestination().getId(), (path4b.getArcs().get(i).getDestination().getId()));
 		}
 		for(int i=0; i<path5d.getArcs().size(); i++) {
-			assertTrue(path5d.getArcs().get(i).getDestination().equals(path5b.getArcs().get(i).getDestination()));
+			assertEquals(path5d.getArcs().get(i).getDestination().getId(), (path5b.getArcs().get(i).getDestination().getId()));
 		}
 	}
 }
