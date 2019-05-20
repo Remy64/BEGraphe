@@ -3,9 +3,7 @@ package org.insa.algo.shortestpath;
 import java.util.ArrayList;
 import java.util.Stack;
 import org.insa.graph.*;
-import org.insa.algo.AbstractInputData.Mode;
 import org.insa.algo.AbstractSolution.Status;
-import org.insa.algo.ArcInspector;
 import org.insa.algo.utils.BinaryHeap;
 import org.insa.algo.utils.EmptyPriorityQueueException;
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
@@ -14,14 +12,15 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         super(data);
     }
 
-    
-    public Label[] initDjikstra(Graph graph, int dest, Mode mode, double speed) {
-    	Label[] label = new Label[graph.size()];
-    	for(int i =0; i < graph.size(); i++) {
-    		label[i] = new Label(i);	
+    protected Label[] initLabel(ShortestPathData data) {
+    	int nbNodes = data.getGraph().size();
+    	Label[] label = new Label[nbNodes];
+    	for(int i = 0; i < nbNodes; i++) {
+    		label[i] = new Label(i);
     	}
     	return label;
     }
+    
     @Override
     protected ShortestPathSolution doRun() {
         ShortestPathData data = getInputData();
@@ -32,7 +31,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         int nbNodes = graph.size();
         
-        Label[] label = this.initDjikstra(graph, data.getDestination().getId(), data.getMode(), data.getMaximumSpeed());
+        Label[] label = this.initLabel(data);
+        
         int currentNode;
         label[data.getOrigin().getId()].setCost(0);
         tas.insert(label[data.getOrigin().getId()]);
@@ -40,10 +40,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         while(!label[data.getDestination().getId()].isMarked()) {
         	try {
 	        	currentNode = tas.deleteMin().getNode();
-	        	
-	        	
 	        	label[currentNode].mark();
-	        	System.out.println("Le noeud :"+currentNode+"vient d'etre marque. Son cout est "+label[currentNode].getCost());
+	        	System.out.println("Le noeud : " + currentNode + " vient d'etre marque. Son cout est de " + label[currentNode].getCost());
 	        	for(Arc successeur : graph.get(currentNode).getSuccessors()) {
 	        		int curSucc = successeur.getDestination().getId();
 	        		if(!label[curSucc].isMarked() && data.isAllowed(successeur)) {
@@ -54,7 +52,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	        				tas.insert(label[successeur.getDestination().getId()]);
 	        				label[curSucc].setFather(successeur);
 	        			}
-	        			System.out.println("Le tas a une taille de "+tas.size());
+	        			System.out.println(tas.isValid() ? ("Le tas est valide et a une taille de "+tas.size()) : "Le tas n'est pas valide");
 	        		}
 	        	}
 	        	allMarked = true;
@@ -62,7 +60,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	        		allMarked &= label[j].isMarked();
 	        	}
 	        }
-	     
 	        catch(EmptyPriorityQueueException e) {
 	    		ArrayList<Node> noeuds = new ArrayList<Node>();
 	    		Path path = Path.createFastestPathFromNodes(graph, noeuds);
@@ -70,7 +67,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	    		return solution;
 	    	}
         }
-     
+        
         Label destination = label[data.getDestination().getId()];
         int currNode = destination.getNode();
         Stack<Node> reversePath = new Stack<Node>();
@@ -85,10 +82,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         }
         Path path = Path.createShortestPathFromNodes(graph, liste_noeuds);
    
-       solution = new ShortestPathSolution(data, Status.FEASIBLE, path);
-       System.out.println("Ce chemin contient : "+liste_noeuds.size()+" arcs");
-       
-        
+        solution = new ShortestPathSolution(data, Status.FEASIBLE, path);
+        System.out.println("Ce chemin contient : "+ liste_noeuds.size() +" arcs");
         return solution;
     }
 

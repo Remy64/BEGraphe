@@ -29,12 +29,12 @@ public class Label implements Comparable<Label> {
 	}
 	public double getCost() {
 		return this.cout;
-	}
-	public double getTotalCost() {
-		return this.cout;
-	}
+	}	
 	public void setCost(double cout) {
 		this.cout = cout;
+	}
+	public double getTotalCost() {
+		return this.getCost();
 	}
 	public int compareTo(Label a) {
 		if(this.getTotalCost() < a.getTotalCost())
