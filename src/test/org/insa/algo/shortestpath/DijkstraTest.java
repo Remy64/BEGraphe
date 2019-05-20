@@ -58,7 +58,7 @@ public class DijkstraTest {
 	@BeforeClass
 	public static void initAll() throws Exception {
 		paths = new ArrayList<Path[]>();
-		paths.add(getShortestPaths("fractal-spiral", 1, 5, 0));
+		paths.add(getShortestPaths("carre-dense", 1, 5, 0));
 		paths.add(getShortestPaths("haute-garonne", 7, 18, 2));
 		paths.add(getShortestPaths("insa", 2, 15, 2));
 		paths.add(getShortestPaths("aveyron", 61, 27, 0));
