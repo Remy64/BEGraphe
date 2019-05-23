@@ -26,12 +26,18 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     // The heap array.
     private final ArrayList<E> array;
 
+    private int nbElementsIn;
+    private int nbElementsOut;
+    private int maxSize;
     /**
      * Construct a new empty binary heap.
      */
     public BinaryHeap() {
         this.currentSize = 0;
         this.array = new ArrayList<E>();
+        this.nbElementsIn = 0;
+        this.nbElementsOut = 0;
+        this.maxSize = this.currentSize;
     }
 
     /**
@@ -42,6 +48,9 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     public BinaryHeap(BinaryHeap<E> heap) {
         this.currentSize = heap.currentSize;
         this.array = new ArrayList<E>(heap.array);
+        this.nbElementsIn = 0;
+        this.nbElementsOut = 0;
+        this.maxSize = this.currentSize;
     }
 
     /**
@@ -140,6 +149,10 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
         int index = this.currentSize++;
         this.arraySet(index, x);
         this.percolateUp(index);
+        this.nbElementsIn++;
+        if(this.currentSize>this.maxSize) {
+        	this.maxSize = this.currentSize;
+        }
     }
     
     public int find_index(E x) throws ElementNotFoundException {
@@ -163,7 +176,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     	//on remplace l'element a retirer par le dernier element
     	this.arraySet(index_remove, this.array.get(index_last));
     	
-    	//taïsation
+    	//taÃ¯sation
     	if(this.index_parent(index_remove) >= 0 && this.array.get(index_remove).compareTo(this.array.get(this.index_parent(index_remove))) < 0) {
     		//fils < pere
     		this.percolateUp(index_remove);
@@ -172,6 +185,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     		this.percolateDown(index_remove);
     	}
     	this.currentSize--;
+    	this.nbElementsOut++;
     }
 
     @Override
@@ -187,18 +201,19 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
         E lastItem = this.array.get(--this.currentSize);
         this.arraySet(0, lastItem);
         this.percolateDown(0);
+        this.nbElementsOut++;
         return minItem;
     }
-
+    
     private boolean isValidAux(int indice) {
     	//fin du tas
     	if(this.index_left(indice) >= this.size()) {
     		return true;
-    	//fils gauche dernier élément
-    	} else if(this.index_left(indice) == this.size()-1 && this.array.get(indice).compareTo(this.array.get(this.index_left(indice))) == -1) {
+    	//fils gauche dernier element
+    	} else if(this.index_left(indice) == this.size()-1 && this.array.get(indice).compareTo(this.array.get(this.index_left(indice))) < 0) {
     		return isValidAux(this.index_left(indice));
     	//deux fils ok
-    	} else if(this.array.get(indice).compareTo(this.array.get(this.index_left(indice))) == -1 && this.array.get(indice).compareTo(this.array.get(this.index_left(indice)+1)) == -1) {
+    	} else if(this.array.get(indice).compareTo(this.array.get(this.index_left(indice))) < 0 && this.array.get(indice).compareTo(this.array.get(this.index_left(indice)+1)) < 0) {
     		return isValidAux(this.index_left(indice)) && isValidAux(this.index_left(indice)+1);
     	//un fils pas ok
     	} else {
@@ -209,7 +224,31 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     public boolean isValid() {
     	return isValidAux(0);
     }
+    /*
+    public boolean isValid() {
+		for(int i=0;; i++) {
+			if(this.index_left(i)>=this.size()) {
+				return true;
+			} else if(this.index_left(i)+1==this.size() && this.array.get(i).compareTo(this.array.get(this.index_left(i)))==1) {
+				return false;
+			} else if(this.index_left(i)+1<this.size() && (this.array.get(i).compareTo(this.array.get(this.index_left(i)))==1 || this.array.get(i).compareTo(this.array.get(this.index_left(i)+1))==1)) {
+    			return false;
+    		}
+		}
+    }
+    */
     
+    public int getNbElementsIn() {
+    	return this.nbElementsIn;
+    }
+    
+    public int getNbElementsOut() {
+    	return this.nbElementsOut;
+    }
+    
+    public int getMaxSize() {
+    	return this.maxSize;
+    }
     /**
      * Prints the heap
      */
