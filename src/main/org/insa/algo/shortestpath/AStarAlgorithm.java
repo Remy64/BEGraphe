@@ -1,7 +1,5 @@
 package org.insa.algo.shortestpath;
 
-import org.insa.graph.*;
-
 public class AStarAlgorithm extends DijkstraAlgorithm {
 
     public AStarAlgorithm(ShortestPathData data) {
@@ -9,11 +7,9 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
     }
     
     protected LabelStar[] initLabel(ShortestPathData data) {
-    	Graph graph = data.getGraph();
-    	int nbNodes = graph.size();
-    	LabelStar[] label = new LabelStar[nbNodes];
-    	for(int i = 0; i < nbNodes; i++) {
-    		label[i] = new LabelStar(i, graph, data.getDestination().getId(), data.getMode(), data.getMaximumSpeed());
+    	LabelStar[] label = new LabelStar[data.getGraph().size()];
+    	for(int i = 0; i < label.length; i++) {
+    		label[i] = new LabelStar(i, data);
     	}
     	return label;
     }

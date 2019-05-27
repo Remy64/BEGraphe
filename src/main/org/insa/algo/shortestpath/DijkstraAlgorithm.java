@@ -3,12 +3,17 @@ package org.insa.algo.shortestpath;
 import java.util.ArrayList;
 import java.util.Stack;
 
-import org.insa.graph.*;
+import org.insa.graph.Graph;
+import org.insa.graph.Path;
+import org.insa.graph.Arc;
+import org.insa.graph.Node;
+
+import org.insa.algo.AbstractInputData.Mode;
 import org.insa.algo.AbstractSolution.Status;
+
 import org.insa.algo.utils.BinaryHeap;
 import org.insa.algo.utils.ElementNotFoundException;
 import org.insa.algo.utils.EmptyPriorityQueueException;
-import org.insa.algo.AbstractInputData.Mode;
 
 /*
 //TEST
@@ -29,9 +34,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
     }
 
     protected Label[] initLabel(ShortestPathData data) {
-    	int nbNodes = data.getGraph().size();
-    	Label[] label = new Label[nbNodes];
-    	for(int i = 0; i < nbNodes; i++) {
+    	Label[] label = new Label[data.getGraph().size()];
+    	for(int i = 0; i < label.length; i++) {
     		label[i] = new Label(i);
     	}
     	return label;
@@ -126,6 +130,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	path = Path.createFastestPathFromNodes(graph, liste_noeuds);
         }
         solution = new ShortestPathSolution(data, Status.FEASIBLE, path);
+        
+        System.out.println("nombre de sommets explores : " + nbExploredNodes);
+        System.out.println("nombre de sommets marques : " + nbMarkedNodes);
+        System.out.println("taille maximale du tas : " + tailleMaxTas);
         
         /*
 		//TEST
