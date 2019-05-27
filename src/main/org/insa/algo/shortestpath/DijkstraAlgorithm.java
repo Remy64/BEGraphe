@@ -36,8 +36,14 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
     protected ShortestPathSolution doRun() {
         ShortestPathData data = getInputData();
         ShortestPathSolution solution = null;
-        
         Graph graph = data.getGraph();
+        
+        // si le noeud d'origine est le noeud de destination, on renvoie un chemin contenant seulement le noeud destination/origine avec status faisable
+        if(data.getOrigin().getId()==data.getDestination().getId()) {
+    		solution = new ShortestPathSolution(data, Status.FEASIBLE, new Path(graph, data.getOrigin()));
+    		return solution;
+        }
+        
         BinaryHeap<Label> tas = new BinaryHeap<Label>();
         
         Label[] label = this.initLabel(data);
@@ -89,6 +95,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	        	}
 	        }
 	        catch(EmptyPriorityQueueException e) {
+	        	//si le tas est vide, alors cela signifie que les noeuds de depart et d'arrivee ne sont pas connexes
+	        	//alors on renvoie un path vide avec status infaisable
 	    		solution = new ShortestPathSolution(data, Status.INFEASIBLE, new Path(graph));
 	    		return solution;
 	    	}

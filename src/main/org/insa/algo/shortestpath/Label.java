@@ -1,41 +1,50 @@
 package org.insa.algo.shortestpath;
 import org.insa.graph.*;
 public class Label implements Comparable<Label> {
-	private int cur_sommet;
-	private boolean marque;
-	private double cout;
-	private Arc pere;
+	private int nodeId;
+	private boolean marked;
+	private double cost;
+	private Arc parent;
+	
+	public Label(int node_id) {
+		this.nodeId = node_id;
+		this.cost = Double.POSITIVE_INFINITY;
+		this.marked = false;
+		this.parent = null;
+	}
 	
 	public int getNode() {
-		return this.cur_sommet;
+		return this.nodeId;
 	}
-	public Label(int node) {
-		this.cur_sommet = node;
-		this.cout = Double.POSITIVE_INFINITY;
-		this.marque = false;
-		this.pere = null; 
-	}
+	
 	public Arc getFather() {
-		return this.pere;
+		return this.parent;
 	}
-	public void setFather(Arc papa) {
-		this.pere = papa;
+	
+	public void setFather(Arc parent) {
+		this.parent = parent;
 	}
+	
 	public boolean isMarked() {
-		return this.marque;
+		return this.marked;
 	}
+	
 	public void mark() {
-		this.marque = true;
+		this.marked = true;
 	}
+	
 	public double getCost() {
-		return this.cout;
+		return this.cost;
 	}
+	
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+	
 	public double getTotalCost() {
-		return this.cout;
+		return this.getCost();
 	}
-	public void setCost(double cout) {
-		this.cout = cout;
-	}
+	
 	public int compareTo(Label a) {
 		if(this.getTotalCost() < a.getTotalCost())
 			return -1;
@@ -43,20 +52,5 @@ public class Label implements Comparable<Label> {
 			return 0;
 		else 
 			return 1;
-	}
-	public boolean equals(Object a) {
-		if (a == this)
-			return true;
-		else if(a == null || a.getClass() != this.getClass())
-			return false;
-		else {
-			Label other = (Label) a;
-			if(this.getNode() == other.getNode())
-				return true;
-			else
-				return false;
-			
-			
-		}
 	}
 }
