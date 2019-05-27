@@ -12,18 +12,16 @@ import java.util.ArrayList;
 
 import org.insa.graph.io.BinaryGraphReader;
 import org.insa.graph.io.GraphReader;
-
+import org.insa.algo.AbstractSolution.Status;
 import org.insa.algo.ArcInspectorFactory;
 import org.insa.graph.*;
 
 public class DijkstraValidityTest {
 
-	private static ArrayList<Path[]> paths;
+	private static ArrayList<ShortestPathSolution[]> solutions;
 
-	public static Path getShortestPath(String mapName, int originId, int destId, int mode, char algo) throws Exception {
-		String mapDirectory = "C:\\Users\\perlo\\Desktop\\C\\BEGraphe\\maps\\";
-		String mapFormat = ".mapgr";
-		String mapPath = mapDirectory + mapName + mapFormat;
+	public static ShortestPathSolution getShortestPath(String mapName, int originId, int destId, int mode, char algo) throws Exception {
+		String mapPath="C:\\Users\\remyb\\Desktop\\BE_Graphes\\BEGraphe\\" + mapName + ".mapgr";
 		GraphReader reader = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(mapPath))));
 		Graph graph = reader.read();
 		Node origin = graph.get(originId);
@@ -42,15 +40,15 @@ public class DijkstraValidityTest {
 	    default:
 	    	throw new Exception("Code d'algorithme incorrect. Entrez d, b ou a");
 	    }
-	    return shortestPathAlgo.run().getPath();
+	    return shortestPathAlgo.run();
 	}
 	
-	public static Path[] getShortestPaths(String mapName, int originId, int destId, int mode) {
+	public static ShortestPathSolution[] getShortestPaths(String mapName, int originId, int destId, int mode) {
 		try {
-			Path[] paths = new Path[2];
-			paths[0] = getShortestPath(mapName, originId, destId, mode, 'b');
-			paths[1] = getShortestPath(mapName, originId, destId, mode, 'd');
-			return paths;
+			ShortestPathSolution[] solutions = new ShortestPathSolution[2];
+			solutions[0] = getShortestPath(mapName, originId, destId, mode, 'b');
+			solutions[1] = getShortestPath(mapName, originId, destId, mode, 'd');
+			return solutions;
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
 			return null;
@@ -59,28 +57,40 @@ public class DijkstraValidityTest {
 	
 	@BeforeClass
 	public static void initAll() throws Exception {
-		paths = new ArrayList<Path[]>();
-		paths.add(getShortestPaths("carre-dense", 1, 5, 0));
-		paths.add(getShortestPaths("haute-garonne", 7, 18, 2));
-		paths.add(getShortestPaths("insa", 2, 15, 2));
-		paths.add(getShortestPaths("aveyron", 61, 27, 0));
-		paths.add(getShortestPaths("gironde", 52, 38, 2));
+		solutions = new ArrayList<ShortestPathSolution[]>();
+		
+		//solutions.add(getShortestPaths("carre-dense", 1, 160393, 0)); // carte non routière, chemin court, mode distance
+		//solutions.add(getShortestPaths("carre-dense", 1, 160393, 2)); // carte non routière, chemin court, mode temps
+		//solutions.add(getShortestPaths("carre-dense", 14660, 99742, 0)); // carte non routière, chemin long, mode distance
+		//solutions.add(getShortestPaths("carre-dense", 14660, 99742, 2)); // carte non routière, chemin long, mode temps
+		//solutions.add(getShortestPaths("haute-garonne", 12, 12, 0)); // carte routière, chemin nul, mode distance
+		//solutions.add(getShortestPaths("haute-garonne", 7, 18, 2)); // carte routière, chemin court, mode temps
+		//solutions.add(getShortestPaths("haute-garonne", 7, 18, 0)); // carte routière, chemin court, mode distance
+		//solutions.add(getShortestPaths("haute-garonne", 128073, 107325, 2)); // carte routière, chemin long, mode temps
+		//solutions.add(getShortestPaths("haute-garonne", 128073, 107325, 0)); // carte routière, chemin long, mode distance
+		//solutions.add(getShortestPaths("insa", 539, 247, 2)); // chemin inexistant, mode temps
+
 	}
 	
 	@Test
 	public void pathsAreValid() {
-		for(Path[] un_path : paths) {
-			assertTrue(un_path[1].isValid());	
+		for(ShortestPathSolution[] une_solution : solutions) {
+			assertTrue(une_solution[1].getPath().isValid());	
 		}
 	}
 	
 	@Test
 	public void pathsMatch() {
-		for(Path[] un_path : paths) {
-			assertEquals(un_path[0].getArcs().size(), un_path[1].getArcs().size());
-			assertEquals(un_path[0].getOrigin().getId(), un_path[1].getOrigin().getId());
-			for(int i=0; i<un_path[0].getArcs().size(); i++) {
-				assertEquals(un_path[0].getArcs().get(i).getDestination().getId(), un_path[1].getArcs().get(i).getDestination().getId());
+		for(ShortestPathSolution[] une_solution : solutions) {
+			if(!(une_solution[0].getStatus() == Status.INFEASIBLE)) {
+			assertEquals(une_solution[0].getPath().size(), une_solution[1].getPath().size());
+			assertEquals(une_solution[0].getPath().getOrigin().getId(), une_solution[1].getPath().getOrigin().getId());
+			for(int i=0; i<une_solution[0].getPath().getArcs().size(); i++) {
+				assertEquals(une_solution[0].getPath().getArcs().get(i).getDestination().getId(), une_solution[1].getPath().getArcs().get(i).getDestination().getId());
+				}
+			}
+			else {
+				assertTrue(une_solution[1].getStatus() == une_solution[0].getStatus());
 			}
 		}
 	}

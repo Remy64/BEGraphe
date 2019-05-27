@@ -4,12 +4,12 @@ import org.insa.graph.*;
 
 public class AStarValidityTest extends DijkstraValidityTest {
 	
-	public static Path[] getShortestPaths(String mapName, int originId, int destId, int mode) {
+	public static ShortestPathSolution[] getShortestPaths(String mapName, int originId, int destId, int mode) {
 		try {
-			Path[] paths = new Path[2];
-			paths[0] = getShortestPath(mapName, originId, destId, mode, 'b');
-			paths[1] = getShortestPath(mapName, originId, destId, mode, 'a');
-			return paths;
+			ShortestPathSolution[] solutions = new ShortestPathSolution[2];
+			solutions[0] = getShortestPath(mapName, originId, destId, mode, 'b');
+			solutions[1] = getShortestPath(mapName, originId, destId, mode, 'a');
+			return solutions;
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
 			return null;
