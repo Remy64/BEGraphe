@@ -1,7 +1,5 @@
 package org.insa.algo.shortestpath;
 
-import org.insa.graph.*;
-
 public class AStarValidityTest extends DijkstraValidityTest {
 	
 	public static ShortestPathSolution[] getShortestPaths(String mapName, int originId, int destId, int mode) {
