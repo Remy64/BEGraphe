@@ -6,8 +6,8 @@ public class Label implements Comparable<Label> {
 	private double cost;
 	private Arc parent;
 	
-	public Label(int node_id) {
-		this.nodeId = node_id;
+	public Label(int nodeId) {
+		this.nodeId = nodeId;
 		this.cost = Double.POSITIVE_INFINITY;
 		this.marked = false;
 		this.parent = null;
