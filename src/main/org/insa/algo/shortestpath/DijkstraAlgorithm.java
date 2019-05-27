@@ -1,8 +1,6 @@
 package org.insa.algo.shortestpath;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Stack;
 
 import org.insa.graph.*;
@@ -12,11 +10,18 @@ import org.insa.algo.utils.ElementNotFoundException;
 import org.insa.algo.utils.EmptyPriorityQueueException;
 import org.insa.algo.AbstractInputData.Mode;
 
+/*
+//TEST
+import java.util.Arrays;
+import java.util.List;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+//FIN TEST
+*/
+
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
     public DijkstraAlgorithm(ShortestPathData data) {
@@ -122,6 +127,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         }
         solution = new ShortestPathSolution(data, Status.FEASIBLE, path);
         
+        /*
 		//TEST
 		int nbTests = 10;
 		String fileName = 
@@ -142,6 +148,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 			System.out.println("impossible d'ecrire dans le fichier");
 		}
 		//END TEST
+		*/
 		
         return solution;
     }
